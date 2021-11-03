@@ -14,7 +14,6 @@ cursor = connection.cursor()
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
-
 @dp.message_handler(commands=['start'])
 async def process_start_command(message):
     fence = '=' * 32
@@ -27,11 +26,10 @@ async def process_start_command(message):
         image_path = row[3]
         message_pp = f'{fence}\n {project}\n{fence}\n{order}\n{fence}'
         await bot.send_message(CHANNEL, message_pp)
-
         pages = convert_from_path(image_path, 150)
-
         media = []
-
+        
+        # page pdf to jpg
         for i, page in enumerate(pages):
             print(len(pages))
             path_jpg = f'{order}{i}.jpg'
@@ -47,7 +45,7 @@ async def process_start_command(message):
                 await bot.send_photo(CHANNEL, img)
         if len(pages) > 1:
             await bot.send_media_group(CHANNEL, media=media)
-
+        # delete temp files
         for i, page in enumerate(pages):
             path_jpg = f'{order}{i}.jpg'
             os.remove(path_jpg)
