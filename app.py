@@ -9,9 +9,8 @@ from pdf2image import convert_from_path
 from config import TOKEN
 from config import CHANNEL
 
-connection = sqlite3.connect(r'D:\python\0_bar_to_pdf\bot_examp\test.db')
+connection = sqlite3.connect(r'test.db')
 cursor = connection.cursor()
-
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
@@ -54,11 +53,6 @@ async def process_start_command(message):
             os.remove(path_jpg)
 
     connection.commit()
-
-
-@dp.message_handler()
-async def echo(message: types.Message):
-    await bot.send_message(message.chat.id, message.text)
 
 
 if __name__ == '__main__':
